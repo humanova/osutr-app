@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#FF212121"
     tools:context=".MainActivity">
+
+
+    <ListView
+        android:id="@+id/message_list"
+        android:layout_width="399dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:background="#FF212121"
+        android:cacheColorHint="#003D3535">
+
+    </ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,17 +28,15 @@
 
         <Button
             android:id="@+id/refresh_btn"
-            android:text="refresh"
-            android:layout_width="0dp"
+            android:layout_width="228dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_height="wrap_content"/>
+            android:background="#FF3b3b3b"
+            android:textColor="#FFe5e5e5"
+            android:text="refresh" />
     </LinearLayout>
 
-        <ListView
-        android:id="@+id/message_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-    </ListView>
 
-</LinearLayout>
+
+</LinearLayout >

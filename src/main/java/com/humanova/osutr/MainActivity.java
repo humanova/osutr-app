@@ -4,9 +4,11 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,10 +28,11 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
 
     private ListView messageList;
-
     private ArrayList<String> messages;
     private ArrayAdapter<String> adapter;
     private int lineIndex = 0;
+    private boolean init = false;
+
     private static String apiURL = "http://173.249.51.133:5000/osuTR-API/v1/get_messages";
 
     @Override
@@ -41,7 +44,21 @@ public class MainActivity extends AppCompatActivity {
         messages = new ArrayList<String>();
         //messages = FileHelper.readData( this);
         //lineIndex = FileHelper.readLineData(this);
-        adapter = new ArrayAdapter<String>( this, android.R.layout.simple_expandable_list_item_1, messages);
+        //adapter = new ArrayAdapter<String>( this, android.R.layout.simple_expandable_list_item_1, messages);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, messages)
+        {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                TextView ListItemShow = (TextView) v.findViewById(android.R.id.text1);
+                //your condition logic
+                v.setBackgroundColor(0xFF212121);
+                ListItemShow.setTextColor(0xFFe5e5e5);
+
+                return v;
+            }
+        };
+
         messageList.setAdapter(adapter);
         Button refreshButton = (Button) findViewById(R.id.refresh_btn);
 
@@ -49,11 +66,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updateChat();
+                messageList.setSelection(messages.size());
             }
         });
 
         chatLoop();
 
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        updateChat();
+        messageList.setSelection(messages.size());
     }
 
     public void chatLoop()
@@ -63,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 updateChat();
             }
-        }, 0, 5000);
+        }, 0, 3000);
     }
 
     public void updateChat()
@@ -81,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < dataArray.length(); i++) {
                         adapter.add(dataArray.getString(i));
                     }
+                    if (!init)
+                    {
+                        messageList.setSelection(messages.size());
+                        init = true;
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     //adapter.add("JSON Error");
@@ -95,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                adapter.add("Request Error");
+                //adapter.add("Request Error");
             }
         };
     }

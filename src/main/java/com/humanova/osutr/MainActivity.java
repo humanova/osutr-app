@@ -74,14 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        updateChat();
-        messageList.setSelection(messages.size());
-    }
-
     public void chatLoop()
     {
         new Timer().scheduleAtFixedRate(new TimerTask() {

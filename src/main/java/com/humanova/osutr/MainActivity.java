@@ -42,19 +42,18 @@ public class MainActivity extends AppCompatActivity {
         messageList = findViewById(R.id.message_list);
 
         messages = new ArrayList<String>();
-        //messages = FileHelper.readData( this);
-        //lineIndex = FileHelper.readLineData(this);
-        //adapter = new ArrayAdapter<String>( this, android.R.layout.simple_expandable_list_item_1, messages);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, messages)
         {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 TextView ListItemShow = (TextView) v.findViewById(android.R.id.text1);
-                //your condition logic
+
                 v.setBackgroundColor(0xFF212121);
                 ListItemShow.setTextColor(0xFFe5e5e5);
+                TextView textView = ((TextView) v.findViewById(android.R.id.text1));
 
+                textView.setMaxHeight(60); // Min Height
                 return v;
             }
         };
@@ -106,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    //adapter.add("JSON Error");
                 }
             }
         };
@@ -118,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                //adapter.add("Request Error");
             }
         };
     }
